@@ -56,9 +56,11 @@ endPointDesc_t GenericApp_epDesc;  /*节点描述符GenericApp_epDesc，
                                      在ZigBee协议栈中新定义的类型一般以_t结尾*/
 byte GenericApp_TaskID;            //任务优先级GenericApp_TaskID
 byte GenericApp_TransID;           //数据发送序列号GenericApp_TransID
+unsigned char uartbuf[128];        //定义uartbuf
 
 void GenericApp_MessageMSGCB ( afIncomingMSGPacket_t *pckt );  //消息处理函数
 void GenericApp_SendTheMessage ( void );                   //数据发送函数
+static void rxCB( uint8 port,uint8 event );                //回调函数
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * 函数名  ： GenericApp_Init
@@ -70,6 +72,7 @@ void GenericApp_SendTheMessage ( void );                   //数据发送函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void GenericApp_Init( byte task_id )
 {
+    halUARTCfg_t uartConfig;
     GenericApp_TaskID               = task_id;  //初始化任务优先级
     GenericApp_TransID              = 0;       //发送数据包序号初始化为0
     GenericApp_epDesc.endPoint      = GENERICAPP_ENDPOINT;
@@ -78,6 +81,27 @@ void GenericApp_Init( byte task_id )
         (SimpleDescriptionFormat_t *)&GenericApp_SimpleDesc;
     GenericApp_epDesc.latencyReq    = noLatencyReqs;
     afRegister ( &GenericApp_epDesc );  //使用afRegister函数将节点描述符进行注册
+    uartConfig.configured           = TRUE;
+    uartConfig.baudRate             = HAL_UART_BR_115200;  //波特率
+    uartConfig.callBackFunc         = rxCB;
+    HalUARTOpen (0, &uartConfig);      //对串口初始化
+}
+
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* 函数名  ： rxCB
+* 参数    ： uint8 port,uint8 event
+* 返回    ： void
+* 作者    ： linhongpeng
+* 时间    ： 2021/5/18
+* 描述    ： 回调函数
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+static void rxCB(uint8 port,uint8 event)
+{
+    HalUARTRead(0,uartbuf,16);
+    if(osal_memcmp(uartbuf,"www.wlwmaker.com",16))
+    {
+        HalUARTWrite(0,uartbuf,16);
+    }
 }
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -112,6 +136,8 @@ UINT16 GenericApp_ProcessEvent ( byte task_id, UINT16 events )
     }
     return 0;
 }
+
+
 
 
 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
