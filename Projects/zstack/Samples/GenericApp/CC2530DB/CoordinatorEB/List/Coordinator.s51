@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        17/May/2021  14:56:12 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        18/May/2021  10:36:23 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -350,38 +350,55 @@ GenericApp_ProcessEvent SYMBOL "GenericApp_ProcessEvent"
         FUNCTION ??osal_msg_receive?relay,00H
 
 // C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zstack\Samples\GenericApp\CC2530DB\Coordinator.c
-//    1 #include "OSAL.h"
-//    2 #include "AF.h"
-//    3 #include "ZDApp.h"
-//    4 #include "ZDObject.h"
-//    5 #include "ZDProfile.h"
-//    6 #include <string.h>
-//    7 #include "Coordinator.h"
-//    8 #include "DebugTrace.h"
-//    9 
-//   10 #if !defined( WIN32 )
-//   11 #include "OnBoard.h"
-//   12 #endif
-//   13 
-//   14 #include "hal_lcd.h"
-//   15 #include "hal_led.h"
-//   16 #include "hal_key.h"
-//   17 #include "hal_uart.h"
-//   18 
+//    1 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//    2 * 文件名  ： Coordinator
+//    3 * 作者    ： linhongpeng
+//    4 * 版本    ： V0.0.1
+//    5 * 时间    ： 2021/5/18
+//    6 * 描述    ： 协调器文件
+//    7 ********************************************************************
+//    8 * 副本
+//    9 *
+//   10 *>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+//   11 /* 头文件 ----------------------------------------------------------------*/
+//   12 #include "OSAL.h"
+//   13 #include "AF.h"
+//   14 #include "ZDApp.h"
+//   15 #include "ZDObject.h"
+//   16 #include "ZDProfile.h"
+//   17 #include <string.h>
+//   18 #include "Coordinator.h"
+//   19 #include "DebugTrace.h"
+//   20 #if !defined( WIN32 )
+//   21 #include "OnBoard.h"
+//   22 #endif
+//   23 #include "hal_lcd.h"
+//   24 #include "hal_led.h"
+//   25 #include "hal_key.h"
+//   26 #include "hal_uart.h"
+//   27 /* 宏定义 ----------------------------------------------------------------*/
+//   28 /* 结构体或枚举 ----------------------------------------------------------*/
+//   29 /* 内部函数声明-----------------------------------------------------------*/
+//   30 
+//   31 /* 函数 ------------------------------------------------------------------*/
+//   32 
+//   33 
+//   34 //跟协议栈里面数据的定义格式保持一致
 
         RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
         DATA16
-//   19 const cId_t GenericApp_ClusterList[GENERICAPP_MAX_CLUSTERS] = 
+//   35 const cId_t GenericApp_ClusterList[GENERICAPP_MAX_CLUSTERS] = 
 GenericApp_ClusterList:
         DW 1
-//   20 {
-//   21     GENERICAPP_CLUSTERID
-//   22 };
-//   23 
+//   36 {
+//   37     GENERICAPP_CLUSTERID
+//   38 };
+//   39 
+//   40 //用来描述一个ZigBee结点
 
         RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
         DATA8
-//   24 const SimpleDescriptionFormat_t GenericApp_SimpleDesc = 
+//   41 const SimpleDescriptionFormat_t GenericApp_SimpleDesc =
 GenericApp_SimpleDesc:
         DB 10
         DATA16
@@ -396,50 +413,61 @@ GenericApp_SimpleDesc:
         DB 0
         DATA16
         DW 0H
-//   25 {
-//   26     GENERICAPP_ENDPOINT,
-//   27     GENERICAPP_PROFID,
-//   28     GENERICAPP_DEVICEID,
-//   29     GENERICAPP_DEVICE_VERSION,
-//   30     GENERICAPP_FLAGS,
-//   31     GENERICAPP_MAX_CLUSTERS,
-//   32     (cId_t *)GenericApp_ClusterList,
-//   33     0,
-//   34     (cId_t *)NULL
-//   35 };
-//   36 
+//   42 {
+//   43     GENERICAPP_ENDPOINT,
+//   44     GENERICAPP_PROFID,
+//   45     GENERICAPP_DEVICEID,
+//   46     GENERICAPP_DEVICE_VERSION,
+//   47     GENERICAPP_FLAGS,
+//   48     GENERICAPP_MAX_CLUSTERS,
+//   49     (cId_t *)GenericApp_ClusterList,
+//   50     0,
+//   51     (cId_t *)NULL
+//   52 };
+//   53 
+//   54 
 
         RSEG XDATA_Z:XDATA:NOROOT(0)
         DATA8
-//   37 endPointDesc_t GenericApp_epDesc;
+//   55 endPointDesc_t GenericApp_epDesc;  /*节点描述符GenericApp_epDesc，
 GenericApp_epDesc:
         DS 6
         REQUIRE __INIT_XDATA_Z
+//   56                                      在ZigBee协议栈中新定义的类型一般以_t结尾*/
 
         RSEG XDATA_Z:XDATA:NOROOT(0)
         DATA8
-//   38 byte GenericApp_TaskID;
+//   57 byte GenericApp_TaskID;            //任务优先级GenericApp_TaskID
 GenericApp_TaskID:
         DS 1
         REQUIRE __INIT_XDATA_Z
 
         RSEG XDATA_Z:XDATA:NOROOT(0)
         DATA8
-//   39 byte GenericApp_TransID;
+//   58 byte GenericApp_TransID;           //数据发送序列号GenericApp_TransID
 GenericApp_TransID:
         DS 1
         REQUIRE __INIT_XDATA_Z
-//   40 
-//   41 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pack );
-//   42 void GenericApp_SendTheMessage( void );
+//   59 
+//   60 void GenericApp_MessageMSGCB ( afIncomingMSGPacket_t *pckt );  //消息处理函数
+//   61 void GenericApp_SendTheMessage ( void );                   //数据发送函数
+//   62 
+//   63 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   64 * 函数名  ： GenericApp_Init
+//   65 * 参数    ： byte task_id
+//   66 * 返回    ： void
+//   67 * 作者    ： linhongpeng
+//   68 * 时间    ： 2021/5/18
+//   69 * 描述    ： 任务初始化函数
+//   70 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-//   43 void GenericApp_Init( byte task_id )
+//   71 void GenericApp_Init( byte task_id )
 GenericApp_Init:
         CFI Block cfiBlock0 Using cfiCommon0
         CFI Function GenericApp_Init
         CODE
-//   44 {
+//   72 {
         FUNCALL GenericApp_Init, afRegister
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -467,54 +495,62 @@ GenericApp_Init:
         ; Saved register size: 9
         ; Auto size: 0
         MOV     A,R1
-//   45     GenericApp_TaskID            = task_id;
+//   73     GenericApp_TaskID               = task_id;  //初始化任务优先级
         MOV     DPTR,#GenericApp_TaskID
         MOVX    @DPTR,A
-//   46     GenericApp_TransID           = 0;
+//   74     GenericApp_TransID              = 0;       //发送数据包序号初始化为0
         MOV     DPTR,#GenericApp_TransID
         CLR     A
         MOVX    @DPTR,A
-//   47     GenericApp_epDesc.endPoint   = GENERICAPP_ENDPOINT;
+//   75     GenericApp_epDesc.endPoint      = GENERICAPP_ENDPOINT;
         MOV     DPTR,#GenericApp_epDesc
         MOV     A,#0xa
         MOVX    @DPTR,A
-//   48     GenericApp_epDesc.task_id    = &GenericApp_TaskID;
+//   76     GenericApp_epDesc.task_id       = &GenericApp_TaskID;
         INC     DPTR
         MOV     A,#GenericApp_TaskID & 0xff
         MOVX    @DPTR,A
         INC     DPTR
         MOV     A,#(GenericApp_TaskID >> 8) & 0xff
         MOVX    @DPTR,A
-//   49     GenericApp_epDesc.simpleDesc = 
-//   50         (SimpleDescriptionFormat_t *)&GenericApp_SimpleDesc;
+//   77     GenericApp_epDesc.simpleDesc    = 
+//   78         (SimpleDescriptionFormat_t *)&GenericApp_SimpleDesc;
         INC     DPTR
         MOV     A,#GenericApp_SimpleDesc & 0xff
         MOVX    @DPTR,A
         INC     DPTR
         MOV     A,#(GenericApp_SimpleDesc >> 8) & 0xff
         MOVX    @DPTR,A
-//   51     GenericApp_epDesc.latencyReq = noLatencyReqs;
+//   79     GenericApp_epDesc.latencyReq    = noLatencyReqs;
         INC     DPTR
         CLR     A
         MOVX    @DPTR,A
-//   52     afRegister( &GenericApp_epDesc );
+//   80     afRegister ( &GenericApp_epDesc );  //使用afRegister函数将节点描述符进行注册
         ; Setup parameters for call to function afRegister
         MOV     R2,#GenericApp_epDesc & 0xff
         MOV     R3,#(GenericApp_epDesc >> 8) & 0xff
         LCALL   ??afRegister?relay
-//   53 }
+//   81 }
         MOV     R7,#0x1
         LJMP    ?BANKED_LEAVE_XDATA
         CFI EndBlock cfiBlock0
-//   54 
+//   82 
+//   83 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//   84 * 函数名  ： GenericApp_ProcessEvent
+//   85 * 参数    ： byte task_id, UINT16 events
+//   86 * 返回    ： UINT16
+//   87 * 作者    ： linhongpeng
+//   88 * 时间    ： 2021/5/18
+//   89 * 描述    ： 消息处理函数
+//   90 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-//   55 UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
+//   91 UINT16 GenericApp_ProcessEvent ( byte task_id, UINT16 events )
 GenericApp_ProcessEvent:
         CFI Block cfiBlock1 Using cfiCommon0
         CFI Function GenericApp_ProcessEvent
         CODE
-//   56 {
+//   92 {
         FUNCALL GenericApp_ProcessEvent, osal_msg_receive
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -579,38 +615,38 @@ GenericApp_ProcessEvent:
         ; Auto size: 0
         MOV     ?V0 + 0,R2
         MOV     ?V0 + 1,R3
-//   57     afIncomingMSGPacket_t *MSGpkt;
-//   58     if ( events & SYS_EVENT_MSG )
+//   93     afIncomingMSGPacket_t *MSGpkt;       //定义一个指向接收消息结构体的指针
+//   94     if ( events & SYS_EVENT_MSG )
         MOV     A,R3
         ANL     A,#0x80
         JZ      ??GenericApp_ProcessEvent_0
-//   59     {
-//   60         MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive(GenericApp_TaskID );
+//   95     {
+//   96         MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive(GenericApp_TaskID );
         ; Setup parameters for call to function osal_msg_receive
         SJMP    ??GenericApp_ProcessEvent_1
-//   61         while ( MSGpkt )
-//   62         {
-//   63             switch( MSGpkt->hdr.event )
+//   97         while( MSGpkt )
+//   98         {
+//   99             switch ( MSGpkt->hdr.event )
 ??GenericApp_ProcessEvent_2:
         MOV     DPL,R6
         MOV     DPH,R7
         MOVX    A,@DPTR
         XRL     A,#0x1a
         JNZ     ??GenericApp_ProcessEvent_3
-//   64             {
-//   65             case AF_INCOMING_MSG_CMD:
-//   66                 GenericApp_MessageMSGCB( MSGpkt ); //可修改该函数实现形式
+//  100             {
+//  101             case AF_INCOMING_MSG_CMD:
+//  102                 GenericApp_MessageMSGCB( MSGpkt );  //唯一需要修改的部分
         ; Setup parameters for call to function GenericApp_MessageMSGCB
         MOV     A,R6
         MOV     R2,A
         MOV     A,R7
         MOV     R3,A
         LCALL   ??GenericApp_MessageMSGCB?relay
-//   67                 break;
-//   68             default:
-//   69                 break;
-//   70             }
-//   71             osal_msg_deallocate( (uint8 *)MSGpkt );
+//  103                 break;
+//  104             default:
+//  105                 break;
+//  106             }
+//  107             osal_msg_deallocate( (uint8 *)MSGpkt );
 ??GenericApp_ProcessEvent_3:
         ; Setup parameters for call to function osal_msg_deallocate
         MOV     A,R6
@@ -618,8 +654,8 @@ GenericApp_ProcessEvent:
         MOV     A,R7
         MOV     R3,A
         LCALL   ??osal_msg_deallocate?relay
-//   72             MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive
-//   73                 ( GenericApp_TaskID );
+//  108             MSGpkt = (afIncomingMSGPacket_t *)osal_msg_receive
+//  109                 ( GenericApp_TaskID );
         ; Setup parameters for call to function osal_msg_receive
 ??GenericApp_ProcessEvent_1:
         MOV     DPTR,#GenericApp_TaskID
@@ -630,18 +666,18 @@ GenericApp_ProcessEvent:
         MOV     ?V0 + 3,R3
         MOV     R6,?V0 + 2
         MOV     R7,?V0 + 3
-//   74         }
+//  110         }
         MOV     A,R6
         ORL     A,R7
         JNZ     ??GenericApp_ProcessEvent_2
-//   75         return (events ^ SYS_EVENT_MSG);
+//  111         return (events ^ SYS_EVENT_MSG);
         MOV     R2,?V0 + 0
         MOV     A,?V0 + 1
         XRL     A,#0x80
         MOV     R3,A
         SJMP    ??GenericApp_ProcessEvent_4
-//   76     }
-//   77     return 0;
+//  112     }
+//  113     return 0;
 ??GenericApp_ProcessEvent_0:
         MOV     R2,#0x0
         MOV     R3,#0x0
@@ -649,16 +685,17 @@ GenericApp_ProcessEvent:
         MOV     R7,#0x4
         LJMP    ?BANKED_LEAVE_XDATA
         CFI EndBlock cfiBlock1
-//   78 }
-//   79 
+//  114 }
+//  115 
+//  116 
 
         RSEG BANKED_CODE:CODE:NOROOT(0)
-//   80 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
+//  117 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
 GenericApp_MessageMSGCB:
         CFI Block cfiBlock2 Using cfiCommon0
         CFI Function GenericApp_MessageMSGCB
         CODE
-//   81 {
+//  118 {
         FUNCALL GenericApp_MessageMSGCB, osal_memcpy
         LOCFRAME ISTACK, 0, STACK
         LOCFRAME PSTACK, 0, STACK
@@ -712,16 +749,16 @@ GenericApp_MessageMSGCB:
         MOV     A,#-0x4
         LCALL   ?ALLOC_XSTACK8
         CFI CFA_XSP16 add(XSP16, 15)
-//   82     unsigned char buffer[4] = " ";
+//  119     unsigned char buffer[4] = "   ";
         MOV     DPL,?XSP + 0
         MOV     DPH,?XSP + 1
         MOV     R4,DPL
         MOV     R5,DPH
-        MOV     DPH,#(`?<Constant " ">` >> 8) & 0xff
-        MOV     DPL,#`?<Constant " ">` & 0xff
+        MOV     DPH,#(`?<Constant "   ">` >> 8) & 0xff
+        MOV     DPL,#`?<Constant "   ">` & 0xff
         MOV     A,#0x4
         LCALL   ?MOVE_LONG8_XDATA_XDATA
-//   83     switch ( pkt->clusterId )
+//  120     switch ( pkt->clusterId )
         MOV     DPL,R2
         MOV     DPH,R3
         INC     DPTR
@@ -735,9 +772,9 @@ GenericApp_MessageMSGCB:
         MOVX    A,@DPTR
 ??GenericApp_MessageMSGCB_0:
         JNZ     ??GenericApp_MessageMSGCB_1
-//   84     {
-//   85     case GENERICAPP_CLUSTERID:
-//   86         osal_memcpy(buffer,pkt->cmd.Data,3);
+//  121     {
+//  122     case GENERICAPP_CLUSTERID:
+//  123         osal_memcpy(buffer,pkt->cmd.Data,3);  //将收到的数据拷贝到缓冲区buffer中
         ; Setup parameters for call to function osal_memcpy
         MOV     A,R2
         ADD     A,#0x21
@@ -764,7 +801,7 @@ GenericApp_MessageMSGCB:
         MOV     A,#0x3
         LCALL   ?DEALLOC_XSTACK8
         CFI CFA_XSP16 add(XSP16, 15)
-//   87         if((buffer[0] == 'L') || (buffer[1] == 'E') || (buffer[2] == 'D'))
+//  124         if((buffer[0] == 'L') || (buffer[1] == 'E') || (buffer[2] == 'D'))
         MOV     DPL,?XSP + 0
         MOV     DPH,?XSP + 1
         MOVX    A,@DPTR
@@ -780,8 +817,8 @@ GenericApp_MessageMSGCB:
         MOVX    A,@DPTR
         XRL     A,#0x44
         JNZ     ??GenericApp_MessageMSGCB_3
-//   88         {
-//   89             HalLedBlink(HAL_LED_2,0,50,500);
+//  125         {
+//  126             HalLedBlink(HAL_LED_2,0,50,500);
 ??GenericApp_MessageMSGCB_2:
         ; Setup parameters for call to function HalLedBlink
         MOV     R4,#-0xc
@@ -791,19 +828,19 @@ GenericApp_MessageMSGCB:
         MOV     R1,#0x2
         LCALL   ??HalLedBlink?relay
         SJMP    ??GenericApp_MessageMSGCB_1
-//   90         }
-//   91         else
-//   92         {
-//   93             HalLedSet(HAL_LED_2,HAL_LED_MODE_ON);
+//  127         }
+//  128         else
+//  129         {
+//  130             HalLedSet(HAL_LED_2,HAL_LED_MODE_ON);
 ??GenericApp_MessageMSGCB_3:
         ; Setup parameters for call to function HalLedSet
         MOV     R2,#0x1
         MOV     R1,#0x2
         LCALL   ??HalLedSet?relay
-//   94         }
-//   95         break;
-//   96     }
-//   97 }
+//  131         }
+//  132         break;
+//  133     }
+//  134 }
 ??GenericApp_MessageMSGCB_1:
         MOV     A,#0x4
         LCALL   ?DEALLOC_XSTACK8
@@ -832,9 +869,8 @@ GenericApp_MessageMSGCB:
 
         RSEG XDATA_ROM_C:CONST:REORDER:NOROOT(0)
         DATA32
-`?<Constant " ">`:
-        DB " "
-        DB 0, 0
+`?<Constant "   ">`:
+        DB "   "
 
         END
 // 
