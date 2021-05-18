@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 //                                                                            /
-// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        18/May/2021  15:14:20 /
+// IAR C/C++ Compiler V8.10.3.10338/W32 for 8051        18/May/2021  15:19:46 /
 // Copyright 2004-2011 IAR Systems AB.                                        /
 //                                                                            /
 //    Core               =  plain                                             /
@@ -9,18 +9,17 @@
 //    Calling convention =  xdata reentrant                                   /
 //    Constant location  =  data_rom                                          /
 //    Dptr setup         =  1,16                                              /
-//    Source file        =  C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Zi /
-//                          gbee\Components\osal\mcu\cc2530\OSAL_Nv.c         /
+//    Source file        =  C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Co /
+//                          mponents\osal\mcu\cc2530\OSAL_Nv.c                /
 //    Command line       =  -f "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4. /
-//                          0\Zigbee\Projects\zstack\Samples\GenericApp\CC253 /
-//                          0DB\..\..\..\Tools\CC2530DB\f8wCoord.cfg"         /
-//                          (-DCPU32MHZ -DROOT=__near_func                    /
-//                          -DMAC_CFG_APP_PENDING_QUEUE=TRUE                  /
-//                          -DZDO_COORDINATOR -DRTR_NWK -DBLINK_LEDS) -f      /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\Tools\CC2530DB\f8wConfig.cfg"           /
-//                          (-DSECURE=0 -DZG_SECURE_DYNAMIC=0 -DREFLECTOR     /
+//                          0\Projects\zstack\Samples\GenericApp\CC2530DB\..\ /
+//                          ..\..\Tools\CC2530DB\f8wCoord.cfg" (-DCPU32MHZ    /
+//                          -DROOT=__near_func -DMAC_CFG_APP_PENDING_QUEUE=TR /
+//                          UE -DZDO_COORDINATOR -DRTR_NWK -DBLINK_LEDS) -f   /
+//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\P /
+//                          rojects\zstack\Samples\GenericApp\CC2530DB\..\..\ /
+//                          ..\Tools\CC2530DB\f8wConfig.cfg" (-DSECURE=0      /
+//                          -DZG_SECURE_DYNAMIC=0 -DREFLECTOR                 /
 //                          -DDEFAULT_CHANLIST=0x00000800                     /
 //                          -DZDAPP_CONFIG_PAN_ID=0x2002                      /
 //                          -DNWK_START_DELAY=100 -DEXTENDED_JOINING_RANDOM_M /
@@ -41,92 +40,90 @@
 //                          -DRFD_RCVC_ALWAYS_ON=FALSE -DPOLL_RATE=1000       /
 //                          -DQUEUED_POLL_RATE=100 -DRESPONSE_POLL_RATE=100)  /
 //                          -DREJOIN_POLL_RATE=440 "C:\Texas                  /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Comp /
-//                          onents\osal\mcu\cc2530\OSAL_Nv.c" -D ZTOOL_P1 -D  /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Components\ /
+//                          osal\mcu\cc2530\OSAL_Nv.c" -D ZTOOL_P1 -D         /
 //                          MT_TASK -D MT_SYS_FUNC -D MT_ZDO_FUNC -D          /
-//                          LCD_SUPPORTED=DEBUG -lC "C:\Texas                 /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\Coordinat /
-//                          orEB\List\" -lA "C:\Texas                         /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\Coordinat /
-//                          orEB\List\" --diag_suppress Pe001,Pa010 -o        /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \CoordinatorEB\Obj\" -e --debug --core=plain      /
-//                          --dptr=16,1 --data_model=large                    /
-//                          --code_model=banked --calling_convention=xdata_re /
-//                          entrant --place_constants=data_rom                /
-//                          --nr_virtual_regs 16 -I "C:\Texas                 /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\" -I      /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\SOURCE\" -I "C:\Texas                         /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ZMAIN\TI2530DB\" -I "C:\Texas                     /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\MT\" -I "C:\Texas                /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\HAL\INCLUDE\" -I "C:\Texas       /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\HAL\TARGET\CC2530EB\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\OSAL\MCU\CCSOC\" -I    /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\OSAL\INCLUDE\" -I      /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\AF\" -I          /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\NWK\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\SEC\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\SAPI\" -I        /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\SYS\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\STACK\ZDO\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\ZMAC\F8W\" -I          /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\ZMAC\" -I "C:\Texas    /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\SERVICES\SADDR\" -I "C:\Texas    /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\SERVICES\SDATA\" -I "C:\Texas    /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\MAC\INCLUDE\" -I "C:\Texas       /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\MAC\HIGH_LEVEL\" -I "C:\Texas    /
-//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Proj /
-//                          ects\zstack\Samples\GenericApp\CC2530DB\..\..\..\ /
-//                          ..\..\COMPONENTS\MAC\LOW_LEVEL\srf04\" -I         /
-//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Z /
-//                          igbee\Projects\zstack\Samples\GenericApp\CC2530DB /
-//                          \..\..\..\..\..\COMPONENTS\MAC\LOW_LEVEL\srf04\SI /
-//                          NGLE_CHIP\" -Ohz --require_prototypes             /
-//    List file          =  C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Zi /
-//                          gbee\Projects\zstack\Samples\GenericApp\CC2530DB\ /
-//                          CoordinatorEB\List\OSAL_Nv.s51                    /
+//                          LCD_SUPPORTED=DEBUG -D HAL_UART=TRUE -lC          /
+//                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\P /
+//                          rojects\zstack\Samples\GenericApp\CC2530DB\Coordi /
+//                          natorEB\List\" -lA "C:\Texas                      /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\CoordinatorEB\Li /
+//                          st\" --diag_suppress Pe001,Pa010 -o "C:\Texas     /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\CoordinatorEB\Ob /
+//                          j\" -e --debug --core=plain --dptr=16,1           /
+//                          --data_model=large --code_model=banked            /
+//                          --calling_convention=xdata_reentrant              /
+//                          --place_constants=data_rom --nr_virtual_regs 16   /
+//                          -I "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4. /
+//                          0\Projects\zstack\Samples\GenericApp\CC2530DB\"   /
+//                          -I "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4. /
+//                          0\Projects\zstack\Samples\GenericApp\CC2530DB\..\ /
+//                          SOURCE\" -I "C:\Texas Instruments\ZStack-CC2530-2 /
+//                          .3.0-1.4.0\Projects\zstack\Samples\GenericApp\CC2 /
+//                          530DB\..\..\..\ZMAIN\TI2530DB\" -I "C:\Texas      /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\MT\" -I "C:\Texas                       /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\HAL\INCLUDE\" -I "C:\Texas              /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\HAL\TARGET\CC2530EB\" -I "C:\Texas      /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\OSAL\MCU\CCSOC\" -I "C:\Texas           /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\OSAL\INCLUDE\" -I "C:\Texas             /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\AF\" -I "C:\Texas                 /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\NWK\" -I "C:\Texas                /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\SEC\" -I "C:\Texas                /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\SAPI\" -I "C:\Texas               /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\SYS\" -I "C:\Texas                /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\STACK\ZDO\" -I "C:\Texas                /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\ZMAC\F8W\" -I "C:\Texas                 /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\ZMAC\" -I "C:\Texas                     /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\SERVICES\SADDR\" -I "C:\Texas           /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\SERVICES\SDATA\" -I "C:\Texas           /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\MAC\INCLUDE\" -I "C:\Texas              /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\MAC\HIGH_LEVEL\" -I "C:\Texas           /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\MAC\LOW_LEVEL\srf04\" -I "C:\Texas      /
+//                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zs /
+//                          tack\Samples\GenericApp\CC2530DB\..\..\..\..\..\C /
+//                          OMPONENTS\MAC\LOW_LEVEL\srf04\SINGLE_CHIP\" -Ohz  /
+//                          --require_prototypes                              /
+//    List file          =  C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Pr /
+//                          ojects\zstack\Samples\GenericApp\CC2530DB\Coordin /
+//                          atorEB\List\OSAL_Nv.s51                           /
 //                                                                            /
 //                                                                            /
 ///////////////////////////////////////////////////////////////////////////////
@@ -498,7 +495,7 @@ osal_nv_write       SYMBOL "osal_nv_write"
         EXTERN ??HalFlashWrite?relay
         FUNCTION ??HalFlashWrite?relay,00H
 
-// C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Zigbee\Components\osal\mcu\cc2530\OSAL_Nv.c
+// C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Components\osal\mcu\cc2530\OSAL_Nv.c
 //    1 /**************************************************************************************************
 //    2   Filename:       OSAL_Nv.c
 //    3   Revised:        $Date: 2008-08-06 17:17:11 -0700 (Wed, 06 Aug 2008) $

@@ -92,7 +92,7 @@ void GenericApp_Init( byte task_id )
 * 函数名  ： rxCB
 * 参数    ： uint8 port,uint8 event
 * 返回    ： void
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 时间    ： 2021/5/18
 * 描述    ： 回调函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -110,7 +110,7 @@ static void rxCB(uint8 port,uint8 event)
 * 函数名  ： GenericApp_ProcessEvent
 * 参数    ： byte task_id, UINT16 events
 * 返回    ： UINT16
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 时间    ： 2021/5/18
 * 描述    ： 消息处理函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/

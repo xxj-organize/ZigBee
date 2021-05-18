@@ -1,6 +1,6 @@
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 * 文件名  ： Enddevice
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 版本    ： V0.0.1
 * 时间    ： 2021/5/18
 * 描述    ： 终端
@@ -9,7 +9,6 @@
 *
 *>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
 /* 头文件 ----------------------------------------------------------------*/
-#include "Enddevice.h"   
 #include "OSAL.h"
 #include "AF.h"
 #include "ZDApp.h"
@@ -26,6 +25,7 @@
 #include "hal_key.h"
 #include "hal_uart.h"
 /* 宏定义 ----------------------------------------------------------------*/
+#define SEND_DATA_EVENT 0x01
 /* 结构体或枚举 ----------------------------------------------------------*/
 /* 内部函数声明-----------------------------------------------------------*/
 
@@ -60,7 +60,7 @@ void GenericApp_SendTheMessage ( void );     //数据发送函数
 * 函数名  ： GenericApp_Init
 * 参数    ： byte task_id
 * 返回    ： void
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 时间    ： 2021/5/18
 * 描述    ： 任务初始化函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -81,7 +81,7 @@ void GenericApp_Init( byte task_id )
 * 函数名  ： GenericApp_ProcessEvent
 * 参数    ： byte task_id, UINT16 events
 * 返回    ： UINT16
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 时间    ： 2021/5/18
 * 描述    ： 消息处理函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -99,7 +99,7 @@ UINT16 GenericApp_ProcessEvent ( byte task_id, UINT16 events )
                 GenericApp_NwkState = (devStates_t)(MSGpkt ->hdr.status);  //读取节点的设备类型
                 if (GenericApp_NwkState == DEV_END_DEVICE)  //判断是否为终端节点
                 {
-                    GenericApp_SendTheMessage();
+                    osal_set_event(GenericApp_TaskID,SEND_DATA_EVENT);
                 }
                 break;
             default:
@@ -111,22 +111,27 @@ UINT16 GenericApp_ProcessEvent ( byte task_id, UINT16 events )
         }
         return (events ^ SYS_EVENT_MSG);
     }
+    if (events & SEND_DATA_EVENT)
+    {
+        GenericApp_SendTheMessage();
+        osal_start_timerEx(GenericApp_TaskID,SEND_DATA_EVENT,1000);
+        return (events ^ SEND_DATA_EVENT); //清除事件标志
+    }
     return 0;
 }
 
 void GenericApp_SendTheMessage( void )
 {
-    unsigned char theMessageData[4] = "LED";
+    unsigned char theMessageData[10] = "EndDevice";
     afAddrType_t my_DstAddr;
     my_DstAddr.addrMode = (afAddrMode_t)Addr16Bit;  //将发送地址模式设置为单播
-    my_DstAddr.endPoint = GENERICAPP_ENDPOINT;      //初始化端口号
+    my_DstAddr.endPoint = GENERICAPP_ENDPOINT;      //初始化目的端口号
     my_DstAddr.addr.shortAddr = 0x0000;       //协调器网络地址固定为0x0000
     AF_DataRequest( &my_DstAddr, &GenericApp_epDesc,
-                      GENERICAPP_CLUSTERID,
-                      3,
-                      theMessageData,  //用于存放要发送的数据
-                      &GenericApp_TransID,
-                      AF_DISCV_ROUTE,
-                      AF_DEFAULT_RADIUS );    //调用数据发送函数AF_DataRequest
-    HalLedBlink(HAL_LED_2,0,50,500);     //调用HalLedBlink函数
+                   GENERICAPP_CLUSTERID,
+                   osal_strlen("EndDevice")+1,
+                   theMessageData,  //用于存放要发送的数据
+                   &GenericApp_TransID,
+                   AF_DISCV_ROUTE,
+                   AF_DEFAULT_RADIUS );    //调用数据发送函数AF_DataRequest
 }
