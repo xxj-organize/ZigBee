@@ -1,6 +1,6 @@
 /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 * 文件名  ： Coordinator
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 版本    ： V0.0.1
 * 时间    ： 2021/5/18
 * 描述    ： 协调器文件
@@ -56,17 +56,17 @@ endPointDesc_t GenericApp_epDesc;  /*节点描述符GenericApp_epDesc，
                                      在ZigBee协议栈中新定义的类型一般以_t结尾*/
 byte GenericApp_TaskID;            //任务优先级GenericApp_TaskID
 byte GenericApp_TransID;           //数据发送序列号GenericApp_TransID
-unsigned char uartbuf[128];        //定义uartbuf
+//unsigned char uartbuf[128];        //定义uartbuf
 
 void GenericApp_MessageMSGCB ( afIncomingMSGPacket_t *pckt );  //消息处理函数
 void GenericApp_SendTheMessage ( void );                   //数据发送函数
-static void rxCB( uint8 port,uint8 event );                //回调函数
+//static void rxCB( uint8 port,uint8 event );                //回调函数
 
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * 函数名  ： GenericApp_Init
 * 参数    ： byte task_id
 * 返回    ： void
-* 作者    ： linhongpeng
+* 作者    ： ZigBee
 * 时间    ： 2021/5/18
 * 描述    ： 任务初始化函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
@@ -83,7 +83,8 @@ void GenericApp_Init( byte task_id )
     afRegister ( &GenericApp_epDesc );  //使用afRegister函数将节点描述符进行注册
     uartConfig.configured           = TRUE;
     uartConfig.baudRate             = HAL_UART_BR_115200;  //波特率
-    uartConfig.callBackFunc         = rxCB;
+    uartConfig.flowControl          = FALSE;
+    uartConfig.callBackFunc         = NULL;   //回调函数设置为NULL
     HalUARTOpen (0, &uartConfig);      //对串口初始化
 }
 
@@ -95,6 +96,7 @@ void GenericApp_Init( byte task_id )
 * 时间    ： 2021/5/18
 * 描述    ： 回调函数
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
+/*
 static void rxCB(uint8 port,uint8 event)
 {
     HalUARTRead(0,uartbuf,16);
@@ -103,7 +105,7 @@ static void rxCB(uint8 port,uint8 event)
         HalUARTWrite(0,uartbuf,16);
     }
 }
-
+*/
 /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * 函数名  ： GenericApp_ProcessEvent
 * 参数    ： byte task_id, UINT16 events
@@ -142,12 +144,14 @@ UINT16 GenericApp_ProcessEvent ( byte task_id, UINT16 events )
 
 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
 {
-    unsigned char buffer[4] = "   ";
+    unsigned char buffer[10];
     switch ( pkt->clusterId )
     {
     case GENERICAPP_CLUSTERID:
-        osal_memcpy(buffer,pkt->cmd.Data,3);  //将收到的数据拷贝到缓冲区buffer中
-        if((buffer[0] == 'L') || (buffer[1] == 'E') || (buffer[2] == 'D'))
+        osal_memcpy(buffer,pkt->cmd.Data,10);  //将收到的数据拷贝到缓冲区buffer中
+        HalUARTWrite(0,buffer,10);
+        break;
+      /*  if((buffer[0] == 'L') || (buffer[1] == 'E') || (buffer[2] == 'D'))
         {
             HalLedBlink(HAL_LED_2,0,50,500);
         }
@@ -156,5 +160,6 @@ void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
             HalLedSet(HAL_LED_2,HAL_LED_MODE_ON);
         }
         break;
+        */
     }
 }
