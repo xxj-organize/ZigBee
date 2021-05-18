@@ -1,6 +1,6 @@
 ###############################################################################
 #                                                                             #
-# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         18/May/2021  10:36:23 #
+# IAR C/C++ Compiler V8.10.3.10338/W32 for 8051         18/May/2021  11:07:37 #
 # Copyright 2004-2011 IAR Systems AB.                                         #
 #                                                                             #
 #    Core               =  plain                                              #
@@ -10,8 +10,8 @@
 #    Constant location  =  data_rom                                           #
 #    Dptr setup         =  1,16                                               #
 #    Source file        =  C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Pro #
-#                          jects\zstack\Samples\GenericApp\CC2530DB\Coordinat #
-#                          or.c                                               #
+#                          jects\zstack\Samples\GenericApp\Source\Coordinator #
+#                          .c                                                 #
 #    Command line       =  -f "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0 #
 #                          \Projects\zstack\Samples\GenericApp\CC2530DB\..\.. #
 #                          \..\Tools\CC2530DB\f8wCoord.cfg" (-DCPU32MHZ       #
@@ -41,8 +41,8 @@
 #                          -DPOLL_RATE=1000 -DQUEUED_POLL_RATE=100            #
 #                          -DRESPONSE_POLL_RATE=100) -DREJOIN_POLL_RATE=440   #
 #                          "C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Pr #
-#                          ojects\zstack\Samples\GenericApp\CC2530DB\Coordina #
-#                          tor.c" -D ZTOOL_P1 -D MT_TASK -D MT_SYS_FUNC -D    #
+#                          ojects\zstack\Samples\GenericApp\Source\Coordinato #
+#                          r.c" -D ZTOOL_P1 -D MT_TASK -D MT_SYS_FUNC -D      #
 #                          MT_ZDO_FUNC -D LCD_SUPPORTED=DEBUG -lC "C:\Texas   #
 #                          Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zst #
 #                          ack\Samples\GenericApp\CC2530DB\CoordinatorEB\List #
@@ -131,7 +131,7 @@
 #                                                                             #
 ###############################################################################
 
-C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zstack\Samples\GenericApp\CC2530DB\Coordinator.c
+C:\Texas Instruments\ZStack-CC2530-2.3.0-1.4.0\Projects\zstack\Samples\GenericApp\Source\Coordinator.c
       1          /*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
       2          * 文件名  ： Coordinator
       3          * 作者    ： linhongpeng
