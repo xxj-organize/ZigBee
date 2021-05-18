@@ -1,3 +1,21 @@
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* 文件名  ： Coordinator
+* 作者    ： zhengwei
+* 版本    ： V0.0.1
+* 时间    ： 2021/5/18
+* 描述    ： 协调器
+********************************************************************
+* 副本
+*
+*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+/* 头文件 ----------------------------------------------------------------*/
+#include "Coordinator.h"                                                               
+/* 宏定义 ----------------------------------------------------------------*/
+/* 结构体或枚举 ----------------------------------------------------------*/
+/* 内部函数声明-----------------------------------------------------------*/
+
+/* 函数 ------------------------------------------------------------------*/
+
 #include "OSAL.h"
 #include "AF.h"
 #include "ZDApp.h"
@@ -32,15 +50,15 @@ const SimpleDescriptionFormat_t GenericApp_SimpleDesc =
     (cId_t *)GenericApp_ClusterList,
     0,
     (cId_t *)NULL
-};
+}; 
 
-endPointDesc_t GenericApp_epDesc;
-byte GenericApp_TaskID;
-byte GenericApp_TransID;
+endPointDesc_t GenericApp_epDesc; 
+byte GenericApp_TaskID;           
+byte GenericApp_TransID;          
 
 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pack );
 void GenericApp_SendTheMessage( void );
-void GenericApp_Init( byte task_id )
+void GenericApp_Init( byte task_id ) 
 {
     GenericApp_TaskID            = task_id;
     GenericApp_TransID           = 0;
@@ -63,7 +81,7 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
             switch( MSGpkt->hdr.event )
             {
             case AF_INCOMING_MSG_CMD:
-                GenericApp_MessageMSGCB( MSGpkt ); //可修改该函数实现形式
+                GenericApp_MessageMSGCB( MSGpkt ); 
                 break;
             default:
                 break;
@@ -77,6 +95,14 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
     return 0;
 }
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* 函数名  ： GenericApp_MessageMSGCB
+* 参数    ： afIncomingMSGPacket_t
+* 返回    ： void
+* 作者    ： zhengwei
+* 时间    ： 2021/5/18
+* 描述    ： LED
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pkt )
 {
     unsigned char buffer[4] = " ";

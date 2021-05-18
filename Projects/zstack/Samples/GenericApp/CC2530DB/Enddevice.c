@@ -1,3 +1,14 @@
+/*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+* 文件名  ： Enddevice
+* 作者    ： zhengwei
+* 版本    ： V0.0.1
+* 时间    ： 2021/5/18
+* 描述    ： 终端
+********************************************************************
+* 副本
+*
+*>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>*/
+/* 头文件 ----------------------------------------------------------------*/
 #include "OSAL.h"
 #include "AF.h"
 #include "ZDApp.h"
@@ -13,11 +24,17 @@
 #include "hal_led.h"
 #include "hal_key.h"
 #include "hal_uart.h"
+/* 宏定义 ----------------------------------------------------------------*/
+/* 结构体或枚举 ----------------------------------------------------------*/
+/* 内部函数声明-----------------------------------------------------------*/
+
+/* 函数 ------------------------------------------------------------------*/
+
 
 const cId_t GenericApp_ClusterList[GENERICAPP_MAX_CLUSTERS] = 
 {
     GENERICAPP_CLUSTERID
-};
+}; //GENERICAPP_MAX_CLUSTERS是在Coordinator.h文件中定义的宏
 
 const SimpleDescriptionFormat_t GenericApp_SimpleDesc =
 {
@@ -30,16 +47,16 @@ const SimpleDescriptionFormat_t GenericApp_SimpleDesc =
     (cId_t *)NULL,
     GENERICAPP_MAX_CLUSTERS,
     (cId_t *)GenericApp_ClusterList,
-};
+};//描述一个zigbee设备节点
 
-endPointDesc_t GenericApp_epDesc;
-byte GenericApp_TaskID;
-byte GenericApp_TransID;
-devStates_t GenericApp_NwkState;
+endPointDesc_t GenericApp_epDesc; //节点描述符
+byte GenericApp_TaskID;           //任务优先级
+byte GenericApp_TransID;          //数据发送序列号
+devStates_t GenericApp_NwkState;  //保存节点状态的变量(记录设备状态)
 
-void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );
-void GenericApp_SendTheMessage( void );
-void GenericApp_Init( byte task_id )
+void GenericApp_MessageMSGCB( afIncomingMSGPacket_t *pckt );//消息处理函数
+void GenericApp_SendTheMessage( void ); //数据发送函数
+void GenericApp_Init( byte task_id )    //任务初始化函数
 {
     GenericApp_TaskID            = task_id;
     GenericApp_NwkState          = DEV_INIT;
@@ -79,8 +96,16 @@ UINT16 GenericApp_ProcessEvent( byte task_id, UINT16 events )
         return (events ^ SYS_EVENT_MSG);
     }
     return 0;
-}
+} //消息处理函数
 
+/*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* 函数名  ： GenericApp_SendTheMessage
+* 参数    ： void
+* 返回    ： void
+* 作者    ： zhengwei
+* 时间    ： 2021/5/18
+* 描述    ： 数据发送
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 void GenericApp_SendTheMessage( void )
 {
     unsigned char theMessageData[4] = "LED";
@@ -96,4 +121,4 @@ void GenericApp_SendTheMessage( void )
                    AF_DISCV_ROUTE,
                    AF_DEFAULT_RADIUS );
     HalLedBlink(HAL_LED_2,0,50,500);
-}
+} //实现数据发送
